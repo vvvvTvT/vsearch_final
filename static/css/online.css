@@ -1,0 +1,342 @@
+/* static/css/online.css */
+/* 继承基础样式 */
+@import url('style.css');
+
+/* 覆盖差异样式 */
+.search-icon.online-search {
+    background: rgba(74, 144, 226, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.search-icon.online-search:hover {
+    background: rgba(74, 144, 226, 0.2);
+    transform: scale(1.1) rotate(-15deg);
+}
+
+.search-input:focus {
+    box-shadow: 0 8px 25px rgba(34, 139, 34, 0.3);
+}
+
+.footer {
+    background: rgba(74, 144, 226, 0.1);
+    z-index: 10000 !important;
+}
+
+/* 搜索状态指示 */
+.searching::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #4a90e2;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 搜索结果适配 */
+.gsc-result {
+    background: white !important;
+    border-radius: 12px !important;
+    margin: 10px 0 !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1) !important;
+}
+
+.gsc-url-top {
+    color: #4a90e2 !important;
+}
+
+.gs-title {
+    color: #333 !important;
+    font-size: 1.2em !important;
+}
+
+.gs-snippet {
+    color: #666 !important;
+}
+
+@media (max-width: 768px) {
+    .gsc-input-box {
+        height: 48px !important;
+        margin: 0 !important;
+    }
+
+    .gsc-input {
+        padding: 12px 20px !important;
+        font-size: 1em !important;
+        margin: 0 !important;
+    }
+
+    .gsc-result {
+        margin: 8px 0 !important;
+    }
+}
+
+.gsc-input-box table {
+    vertical-align: baseline !important;
+    margin: 0 !important;
+}
+
+.search-notice {
+    text-align: center;
+    color: #666;
+    margin: 1rem 0;
+    font-size: 0.9em;
+}
+
+.gsc-table-result {
+    width: 100% !important;
+}
+
+.gs-title {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 1.2em !important;
+}
+
+.gs-visibleUrl {
+    color: #4a90e2 !important;
+    font-size: 0.9em !important;
+}
+/* 在online.css中添加 */
+.gsc-resultsbox-visible {
+    max-width: 100% !important;
+    width: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    box-sizing: border-box;
+    margin: 1rem 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 100 !important; /* 确保在页面元素之上 */
+    background: white !important; /* 防止透明背景导致内容重叠 */
+}
+
+/* 修复定位问题 */
+.gsc-results-wrapper-overlay {
+    position: static !important;
+    height: auto !important;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .gsc-resultsbox-visible {
+        width: 95% !important;
+        left: 2.5% !important;
+        transform: none !important;
+    }
+
+    .gsc-results {
+        grid-template-columns: 1fr !important;
+        padding: 1rem !important;
+    }
+}
+
+/* 在online.css中添加 */
+.gsc-input {
+    margin-top: -0.03125em !important;
+    vertical-align: top !important; /* 确保精确对齐 */
+    position: relative;
+    top: -0.03125em;
+}
+
+/* 同时修复容器样式 */
+.gsc-input-box {
+    line-height: 1 !important;
+    vertical-align: middle !important;
+}
+
+nav.toolbar {
+    position: relative;
+    z-index: 10000 !important; /* 高于搜索结果框的9999 */
+}
+.gsc-control-cse {
+    display: block !important;
+    opacity: 1 !important; /* 移除初始透明状态 */
+    transition: none !important; /* 移除过渡动画 */
+}
+.search-container {
+    display: block !important;
+}
+.cse-error {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    padding: 2rem;
+    text-align: center;
+    z-index: 1000;
+    animation: popIn 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    display: none; /* 默认隐藏 */
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.error-icon {
+    width: 64px;
+    height: 64px;
+    background: #ff444422;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.error-icon svg {
+    width: 40px;
+    height: 40px;
+    color: #ff4444;
+}
+
+.error-content h3 {
+    margin: 0 0 1rem;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.error-content p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+}
+
+.error-content ul {
+    text-align: left;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.retry-btn {
+    width: 100%;
+    padding: 12px;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.retry-btn:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+}
+
+/* 增加遮罩层 */
+.error-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+}
+/* 入库按钮样式 */
+.save-btn {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.save-btn:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(74,144,226,0.3);
+}
+.gsc-table-result .gs-title {
+    display: none !important;
+}
+
+/* 调整标题样式 */
+.gs-title {
+    line-height: 1.4 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* 修复<b>标签样式 */
+.gs-title b {
+    color: #d32f2f;
+    font-weight: 700;
+}
+.gcse-search {
+    position: relative;
+    width: 100%;
+    max-width: 8080px;
+    margin: 0 auto;
+}
+
+/* 覆盖Google默认样式 */
+.gsc-control-cse {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.gsc-input-box {
+    border: 2px solid #4a90e2 !important;
+    border-radius: 30px !important;
+    height: 55px !important;
+}
+
+.gsc-search-button {
+    display: none !important;
+}
+
+.gsc-input {
+    padding: 15px 30px !important;
+    font-size: 1.1em !important;
+}
+
+.gsc-results-wrapper-overlay {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    border-radius: 15px !important;
+}
+.gsc-resultsbox-visible {
+    position: absolute; /* 或者可以使用 fixed，取决于你的需求 */
+    top: 0; /* 根据需要调整顶部位置 */
+    left: 0; /* 从左侧开始 */
+    width: 100vw; /* 宽度为整个视口宽度 */
+    max-width: 100%; /* 防止超出父容器宽度 */
+    background-color: white; /* 设置背景颜色 */
+    z-index: 9999; /* 确保在其他元素之上 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 可选：添加阴影效果 */
+}
+.main-content {
+    position: relative; /* 确保子元素可以相对于这个容器定位 */
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线搜索 - vvvvTvTDaBaby</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/online.css')}}">
+</head>
+<body>
+<!-- 在原有基础上增加以下元素 -->
+<nav class="toolbar">
+    <a href="index">返回首页</a>
+    <a href="upload">文件上传</a>
+</nav>
+
+<main class="main-content">
+    <!-- 自定义搜索图标（保持原交互） -->
+    <button class="search-icon online-search" id="customSearchButton" aria-label="搜索">
+        <svg viewBox="0 0 24 24" fill="#4a90e2">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+    </button>
+
+    <!-- Google搜索容器 -->
+    <div class="search-container">
+        <div class="gcse-search" data-enableHistory="true" data-autoSearchOnLoad="false"></div>
+    </div>
+</main>
+<div class="error-overlay" style="display:none"></div>
+<div class="cse-error" style="display:none">
+    <div class="error-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+    </div>
+    <div class="error-content">
+        <h3>服务连接失败</h3>
+        <p>无法访问Google搜索服务</p>
+        <ul>
+            <li>检查网络连接状态</li>
+            <li>尝试切换网络环境</li>
+            <li>稍后再试</li>
+        </ul>
+        <button class="retry-btn">重试连接</button>
+    </div>
+</div>
+<footer class="footer">
+    © 2025 vvvvTvTDaBaby | 在线搜索版
+</footer>
+
+<script async src="https://cse.google.com/cse.js?cx=7326f1ded5ef6410e"></script>
+<script src="{{ url_for('static', filename='js/online.js') }}"></script>
+
+</body>
+</html>

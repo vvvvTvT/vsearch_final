@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML文件上传</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <style>
+        .upload-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 120px); /* 120px为导航+页脚高度 */
+            justify-content: center;
+            padding: 2rem;
+        }
+        .upload-container {
+            max-width: 600px;
+            width: 100%;
+            max-height: 600px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 2rem;
+            border: 2px dashed #4a90e2;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .upload-container.dragover {
+            border-color: #357abd;
+            background-color: #f8f9fa;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #4a90e2;
+            transition: width 0.3s ease;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .file-list {
+            margin-top: 1rem;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <nav class="toolbar">
+        <a href="/">首页</a>
+        <a href="/online">联网搜索</a>
+    </nav>
+    <main class="upload-wrapper">
+        <h2 style="text-align: center">XML文件上传</h2>
+        <div class="upload-container" id="drop-zone">
+            <input type="file" id="file-input" accept=".xml" multiple>
+            <label for="file-input" class="upload-btn">选择文件</label>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+            <div id="status" class="status-message"></div>
+            <div class="file-list" id="file-list"></div>
+        </div>
+    </main>
+    <script>
+        const uploadContainer = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const statusDiv = document.getElementById('status');
+        const progressBar = document.getElementById('progress');
+        const fileListDiv = document.getElementById('file-list');
+
+        // 拖拽上传处理
+        uploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadContainer.classList.add('dragover');
+        });
+
+        uploadContainer.addEventListener('dragleave', () => {
+            uploadContainer.classList.remove('dragover');
+        });
+
+        uploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadContainer.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        // 文件选择处理
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // 文件处理函数
+        async function handleFiles(files) {
+            statusDiv.textContent = '';
+            fileListDiv.innerHTML = '';
+
+            for (const file of files) {
+                if (file.type !== 'text/xml') {
+                    showError(`文件 ${file.name} 不是有效的XML文件`);
+                    continue;
+                }
+
+                // 显示上传文件信息
+                const fileItem = document.createElement('div');
+                fileItem.textContent = `${file.name} (${formatSize(file.size)})`;
+                fileListDiv.appendChild(fileItem);
+
+                try {
+                    // 前置验证
+                    const validationResult = await validateXML(file);
+                    if (!validationResult.valid) {
+                        throw new Error(validationResult.message);
+                    }
+
+                    // 执行上传
+                    const result = await uploadFile(file);
+                    showSuccess(`文件 ${file.name} 上传成功！文档ID: ${result.docid}`);
+                } catch (error) {
+                    showError(`上传失败: ${error.message}`);
+                }
+            }
+        }
+
+        // XML格式验证
+        async function validateXML(file) {
+            const formData = new FormData();
+            formData.append('xml', file);
+
+            try {
+                const response = await fetch('/validate', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                throw new Error('验证服务不可用');
+            }
+        }
+
+        // 文件上传
+        async function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('xml', file);
+
+            const xhr = new XMLHttpRequest();
+
+            return new Promise((resolve, reject) => {
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percent = (e.loaded / e.total) * 100;
+                        progressBar.style.width = `${percent}%`;
+                    }
+                });
+
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            reject(JSON.parse(xhr.responseText));
+                        }
+                    }
+                };
+
+                xhr.open('POST', '/upload', true);
+                xhr.send(formData);
+            });
+        }
+
+        // 辅助函数
+        function formatSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showSuccess(message) {
+            statusDiv.className = 'status-message success';
+            statusDiv.textContent = message;
+        }
+
+        function showError(message) {
+            statusDiv.className = 'status-message error';
+            statusDiv.textContent = message;
+        }
+    </script>
+</body>
+</html>

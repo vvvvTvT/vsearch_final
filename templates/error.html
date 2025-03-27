@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统异常 - vvvvTvTDaBaby</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+</head>
+<body>
+    <!-- 导航栏保持与其他页面一致 -->
+    <nav class="toolbar">
+        <a href="/">返回首页</a>
+        <a href="/online">联网搜索</a>
+        <a href="upload">文件上传</a>
+    </nav>
+
+    <main class="error-container">
+        <!-- 动态显示错误代码 -->
+        <div class="error-code" id="errorCode">
+            {{ error_code if error_code else "错误" }}
+        </div>
+
+        <!-- 主错误信息 -->
+        <h1 class="error-title">遇到点小麻烦</h1>
+
+        <!-- 详细错误描述 -->
+        <div class="error-details">
+            <p>{{ error_message | default("未知错误，请尝试以下操作：") }}</p>
+
+            <!-- 动态调试信息（仅开发环境显示） -->
+            {% if config.DEBUG %}
+            <div class="debug-info">
+                <h3>调试信息：</h3>
+                <pre>{{ error_detail }}</pre>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- 交互操作区 -->
+        <div class="error-actions">
+            <button class="retry-btn" onclick="window.history.back()">
+                ← 返回上一页
+            </button>
+            <a href="/" class="home-btn">
+                返回首页 →
+            </a>
+        </div>
+
+        <!-- 自动跳转提示 -->
+        <div class="auto-redirect">
+            将在 <span id="countdown">10</span> 秒后自动返回首页
+        </div>
+    </main>
+
+    <!-- 页脚保持统一 -->
+    <footer class="footer error-footer">
+        © 2025 vvvvTvTDaBaby | 技术服务支持：support@babydomain.com
+    </footer>
+
+    <script>
+        // 自动跳转计数器
+        let seconds = 10;
+        const countdownElement = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            seconds--;
+            countdownElement.textContent = seconds;
+
+            if(seconds <= 0) {
+                clearInterval(timer);
+                window.location.href = '/';
+            }
+        }, 1000);
+
+        // 动态错误代码动画
+        const errorCode = document.getElementById('errorCode');
+        if(errorCode) {
+            let rotation = 0;
+            setInterval(() => {
+                rotation = (rotation + 2) % 360;
+                errorCode.style.transform = `rotate(${rotation}deg)`;
+            }, 50);
+        }
+    </script>
+</body>
+</html>

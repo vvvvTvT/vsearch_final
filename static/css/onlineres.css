@@ -1,0 +1,78 @@
+/* static/css/onlineres.css */
+/* 继承基础样式 */
+@import url('res.css');
+
+/* 覆盖差异样式 */
+.online-results .result-card {
+    border-left: 4px solid #4a90e2;
+    background: #f8fbff;
+}
+
+.online-results .result-card:hover {
+    box-shadow: 0 5px 20px rgba(74, 144, 226, 0.2);
+}
+
+.online-results .keyword-tag {
+    background: #4a90e210;
+    border-color: #4a90e230;
+}
+
+.online-results .search-meta {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #f8fbff 0%, #e3efff 100%);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.online-results .query-text {
+    color: #4a90e2;
+    font-weight: 600;
+}
+
+.online-results .result-stats {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.online-reset {
+    background: #4a90e2;
+    padding-left: 1.2rem;
+    padding-right: 1.5rem;
+}
+
+.online-reset:hover {
+    background: #357abd;
+}
+
+.online-reset svg {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* 网络特定图表样式 */
+#domainChart {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e0e0e0;
+}
+/* 添加搜索结果布局 */
+.gsc-results {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+    padding: 2rem 0 !important;
+}
+
+.gsc-webResult {
+    background: white !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1) !important;
+    margin: 0 !important;
+    break-inside: avoid;
+}
+
+@media (max-width: 768px) {
+    .gsc-results {
+        grid-template-columns: 1fr !important;
+    }
+}

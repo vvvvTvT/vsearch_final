@@ -1,0 +1,110 @@
+/* static/css/error.css */
+
+.error-container {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.error-code {
+    font-size: 6rem;
+    color: #ff4d4d;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 1rem;
+    transition: transform 0.5s ease;
+}
+
+.error-title {
+    color: #333;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.error-details {
+    background: #fff5f5;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border: 1px solid #ffcccc;
+}
+
+.error-details p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.retry-btn, .home-btn {
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.retry-btn {
+    background: #f0f0f0;
+    color: #666;
+    border: 2px solid #ddd;
+}
+
+.retry-btn:hover {
+    background: #e0e0e0;
+    transform: translateX(-5px);
+}
+
+.home-btn {
+    background: #4a90e2;
+    color: white;
+    border: 2px solid #357abd;
+}
+
+.home-btn:hover {
+    background: #357abd;
+    transform: translateX(5px);
+}
+
+.auto-redirect {
+    color: #888;
+    margin-top: 2rem;
+    font-size: 0.9em;
+}
+
+/* 调试信息样式 */
+.debug-info {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: left;
+    border-radius: 8px;
+}
+
+.debug-info pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #d32f2f;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .error-container {
+        margin: 2rem;
+        padding: 1rem;
+    }
+
+    .error-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .retry-btn, .home-btn {
+        width: 100%;
+    }
+}

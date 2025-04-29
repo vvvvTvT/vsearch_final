@@ -19,4 +19,3 @@
 
 [demo](http://search.vvt.icu)
 
-[![Saas][Saas-image]][saas-url]

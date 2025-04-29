@@ -17,4 +17,4 @@
 - 优化搜索结果页面，使其可连续加载或分页加载；
 - 优化UI显示。
 
-[demo](search.vvt.icu)
+[demo](http://search.vvt.icu)
